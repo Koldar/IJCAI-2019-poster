@@ -8,13 +8,13 @@
     \node[Vertex, below=2.0cm of v10] (v20) {$s_{2,0}$};
     \node[Vertex, below=2.0cm of v12] (v22) {$s_{2,2}$};
 
-    \path (v00) edge[NormalEdge] node[below]{\edgeLabel{1}} (v01);
-    \path (v01) edge[NormalEdge] node[below]{\edgeLabel{3}} (v02);
-    \path (v10) edge[NormalEdge] node[below]{\edgeLabel{5}} (v11);
-    \path (v11) edge[NormalEdge] node[below]{\edgeLabel{2}} (v12);
-    \path (v00) edge[NormalEdge] node[left]{\edgeLabel{4}} (v10);
-    \path (v10) edge[NormalEdge] node[left]{\edgeLabel{4}} (v20);
-    \path (v01) edge[NormalEdge] node[left]{\edgeLabel{2}} (v11);
-    \path (v02) edge[NormalEdge] node[left]{\edgeLabel{3}} (v12);
-    \path (v12) edge[NormalEdge] node[left]{\edgeLabel{1}} (v22);
+    \path (v00) edge[NormalEdge] node[below]{\edgeLabel{a,1}} (v01);
+    \path (v01) edge[NormalEdge] node[below]{\edgeLabel{b,3}} (v02);
+    \path (v10) edge[NormalEdge] node[below]{\edgeLabel{c,5}} (v11);
+    \path (v11) edge[NormalEdge] node[below]{\edgeLabel{d,2}} (v12);
+    \path (v00) edge[NormalEdge] node[left]{\edgeLabel{e,4}} (v10);
+    \path (v10) edge[NormalEdge] node[left]{\edgeLabel{f,4}} (v20);
+    \path (v01) edge[NormalEdge] node[left]{\edgeLabel{g,2}} (v11);
+    \path (v02) edge[NormalEdge] node[left]{\edgeLabel{h,3}} (v12);
+    \path (v12) edge[NormalEdge] node[left]{\edgeLabel{i,1}} (v22);
 \end{tikzpicture}
