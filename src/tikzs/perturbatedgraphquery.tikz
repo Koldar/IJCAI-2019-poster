@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+    \node[StartVertex] (v00) at (0,0) {$s_{0,0}$};
+    \node[Vertex, right=4.0cm of v00] (v01) {$s_{0,1}$};
+    \node[Vertex, right=4.0cm of v01] (v02) {$s_{0,2}$};
+    \node[Vertex, below=2.0cm of v00] (v10) {$s_{1,0}$};
+    \node[Vertex, right=4.0cm of v10] (v11) {$s_{1,1}$};
+    \node[Vertex, right=4.0cm of v11] (v12) {$s_{1,2}$};
+    \node[Vertex, below=2.0cm of v10] (v20) {$s_{2,0}$};
+    \node[TargetVertex, below=2.0cm of v12] (v22) {$s_{2,2}$};
+
+    \path (v00) edge[EdgePath] node[below]{\edgeLabel{1}} (v01);
+    \path (v01) edge[EdgePath] node[below]{\edgeLabel{3}} (v02);
+    \path (v10) edge[NormalEdge] node[below]{\edgeLabel*{7}} (v11);
+    \path (v11) edge[NormalEdge] node[below]{\edgeLabel*{4}} (v12);
+    \path (v00) edge[NormalEdge] node[left]{\edgeLabel{4}} (v10);
+    \path (v10) edge[NormalEdge] node[left]{\edgeLabel{4}} (v20);
+    \path (v01) edge[NormalEdge] node[left]{\edgeLabel*{4}} (v11);
+    \path (v02) edge[EdgePath] node[left]{\edgeLabel{3}} (v12);
+    \path (v12) edge[EdgePath] node[left]{\edgeLabel{1}} (v22);
+\end{tikzpicture}

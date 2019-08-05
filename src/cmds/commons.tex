@@ -1,0 +1,57 @@
+\usepackage{calculator}
+
+
+
+\makeatletter
+
+\NewDocumentCommand{\setFontSize}{m o m}{%
+    \IfNoValueF{#2}{%
+        \fontsize{#1}{#2}\selectfont#3%
+    }{%
+        % see https://texblog.org/2012/08/29/changing-the-font-size-in-latex/
+        \MULTIPLY{#1}{1.2}{\setFont@baseline}%
+        \fontsize{#1}{\setFont@baseline}\selectfont#3%
+    }%
+}
+
+\NewDocumentCommand{\todo}{m}{%
+    {\color{blue} #1}%
+}
+
+\NewDocumentCommand{\code}{m}{%
+    \texttt{#1}%
+}
+
+% draw a square.
+% param1: fill color red!50
+% param2: border color (default to black)
+\NewDocumentCommand{\drawFilledSquare}{m O{black}}{%
+    \begin{tikzpicture}%
+        \node [rectangle,draw={#2},fill={#1}] (m) at (0,0) {};%
+    \end{tikzpicture}%
+}
+
+\NewDocumentCommand{\eg}{}{%
+    e.g.,%
+}
+
+\NewDocumentCommand{\ie}{}{%
+    i.e.,%
+}
+
+\NewDocumentCommand{\wrt}{}{%
+    w.r.t.%
+}
+
+\NewDocumentEnvironment{coloredBlock}{m O{blue} O{white}}{%
+\setbeamercolor{block title}{bg=#2, fg=#3}
+    \begin{block}{#1}%
+}{%
+    \end{block}%
+}
+
+\NewDocumentCommand{\doublePlus}{}{%
+    \ifmmode{+\!\!+}\else{$+\!\!+$}\fi%
+}
+
+\makeatother

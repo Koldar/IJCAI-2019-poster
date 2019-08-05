@@ -1,0 +1,52 @@
+\NewDocumentCommand{\CPD}{}{%
+    \texttt{CPD}%
+}
+
+\NewDocumentCommand{\ALT}{}{%
+    \texttt{ALT}%
+}
+
+\NewDocumentCommand{\AWA}{}{%
+    \texttt{AWA$^*$}%
+}
+
+\NewDocumentCommand{\WA}{}{%
+    \texttt{WA$^*$}%
+}
+
+\NewDocumentCommand{\A}{}{%
+    \texttt{A$^*$}%
+}
+
+\NewDocumentCommand{\CPDSearch}{}{%
+    \texttt{CPD-Search}%
+}
+
+\NewDocumentCommand{\anytimeCPDSearch}{}{%
+    \texttt{Anytime CPD-Search}%
+}
+
+
+\NewDocumentCommand{\CPDPathName}{}{%
+    \texttt{CPD}-Path%
+}
+
+\NewDocumentCommand{\CPDPathsName}{}{%
+    \texttt{CPD}-Paths%
+}
+
+\NewDocumentCommand{\CPDPath}{m m}{%
+    \texttt{CPD-Path}[#1, #2]%
+}
+
+\NewDocumentCommand{\CPDPathCostOriginal}{m m}{%
+    \ifmmode{h_{CPD}[#1]}\else{$h_{CPD}[#1]$}\fi%
+}
+
+\NewDocumentCommand{\CPDPathCostNew}{m m}{%
+    \ifmmode{h'_{CPD}[#1]}\else{$h'_{CPD}[#1]$}\fi%
+}
+
+\NewDocumentCommand{\pathOnGraph}{m m}{%
+    path[#1, #2]%
+}

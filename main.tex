@@ -1,6 +1,10 @@
 
 \documentclass[%
     25pt, a1paper, portrait,%
+    blockverticalspace=15pt,%
+    colspace=15pt,%
+    margin=0pt,%
+    innermargin=20pt,%
 ]{tikzposter}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -13,29 +17,15 @@
 \usepackage{etoolbox}
 \usepackage{xparse}
 \usepackage{subcaption}
-\usepackage{tikz}
 \usepackage{blindtext}
 \usepackage{geometry}
 \usepackage{calculator}
+\usepackage[thicklines]{cancel}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 
-
-\NewDocumentCommand{\code}{m}{%
-    \texttt{#1}%
-}
-
-\NewDocumentCommand{\CPD}{}{%
-    \textsf{CPD}%
-}
-
-\NewDocumentCommand{\setFontSize}{m o m}{%
-    \IfNoValueF{#2}{%
-        \fontsize{#1}{#2}\selectfont#3%
-    }{%
-        % see https://texblog.org/2012/08/29/changing-the-font-size-in-latex/
-        \MULTIPLY{#1}{1.2}{\setFont@baseline}%
-        \fontsize{#1}{\setFont@baseline}\selectfont#3%
-    }%
-}
+\input{src/cmds/commons}
+\input{src/cmds/commands}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TITLE
@@ -64,6 +54,56 @@
 %remove logo https://tex.stackexchange.com/a/263278/145331
 \tikzposterlatexaffectionproofoff
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TIKZ CONFIGURATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tikzset{Vertex/.style={%
+    shape=circle,%
+    draw=blue!30,%
+    fill=blue!15,%
+    minimum size=10pt,%
+    line width=4pt,%
+    radius=1cm,%
+    inner sep=3pt,%
+    node distance=3.5cm,%
+}}
+\tikzset{StartVertex/.style={%
+    shape=circle,%
+    draw=blue!50,%
+    fill=blue!30,%
+    minimum size=10pt,%
+    line width=7pt,%
+    radius=1cm,%
+    inner sep=3pt,%
+    node distance=3.5cm,%
+}}
+\tikzset{TargetVertex/.style={%
+    shape=circle,%
+    draw=blue!50,%
+    fill=blue!30,%
+    minimum size=10pt,%
+    line width=7pt,%
+    radius=1cm,%
+    inner sep=3pt,%
+    node distance=3.5cm,%
+}}
+\tikzset{NormalEdge/.style={%
+    -.,
+    line width=2pt,%
+}}
+\tikzset{EdgePath/.style={%
+    ->,%
+    line width=5pt,%
+}}
+\NewDocumentCommand{\edgeLabel}{s m}{%
+    \IfBooleanTF{#1}{%
+        \Large{\textbf{\color{red}#2}}%
+    }{%
+        \Large{\textbf{#2}}%
+    }%
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,16 +116,76 @@
         Compressed Path Databases (CPDs) are a leading technique for optimal pathfinding in graphs with static edge costs. In this work we investigate CPDs as admissible heuristic functions and we apply them in two distinct settings: problems where the graph is subject to dynamically changing costs, and anytime settings where deliberation time is limited. Conventional heuristics derive cost-to- go estimates by reasoning about a tentative and usually infeasible path, from the current node to the target. CPD-based heuristics derive cost-to-go estimates by computing a concrete and usually feasible path. We exploit such paths to bound the optimal solution, not just from below but also from above. We demonstrate the benefit of this approach in a range of experiments on standard gridmaps and in comparison to Landmarks, a popular alternative also developed for searching in explicit state-spaces.
     }
 
+    \block{Problem}{%
+        \begin{minipage}{0.31\textwidth}%
+            \centering%
+            \textbf{Original map}%
+            \medskip\medskip\medskip
+
+            \input{src/tikzs/originalgraph.tikz}
+        \end{minipage}%
+        \begin{minipage}{0.31\textwidth}
+            \centering
+            \textbf{Solution of query $\mathbf{q = (s_{0,0}, s_{2,2})}$}
+            \medskip\medskip\medskip
+            
+            \input{src/tikzs/originalgraphquery.tikz}
+        \end{minipage}%
+        \begin{minipage}{0.31\textwidth}
+            \centering
+            \textbf{Problem: compute soltuion of $\mathbf{q}$ over map with \textit{perturbations}?}
+            \medskip\medskip\medskip
+            
+            \input{src/tikzs/perturbatedgraphquery.tikz}
+        \end{minipage}%
+    }
+
+    \block{\CPDSearch{} $\Rightarrow$ Exploit \CPD{} in \A{} variant}{%
+        \begin{minipage}{0.31\textwidth}
+            \centering
+            \textbf{Admissible heuristic}
+            \medskip\medskip\medskip
+
+            \input{src/tikzs/admissibleheuristic.tikz}            
+        \end{minipage}%
+        \begin{minipage}{0.31\textwidth}
+            \centering
+            \textbf{Early Termination}
+            \medskip\medskip\medskip
+
+            \input{src/tikzs/admissibleheuristic.tikz}            
+        \end{minipage}%
+        \begin{minipage}{0.31\textwidth}
+            \centering
+            \textbf{Obtain solution bounds}
+            \medskip\medskip\medskip
+
+            \input{src/tikzs/admissibleheuristic.tikz}            
+        \end{minipage}
+
+    }
+
     \begin{columns}
-        \column{0.3}
-            \block{Title block}{%
-                Body block
+        \column{0.64}{%
+            \block{Optimal scenario}{%
+                \begin{minipage}{0.5\linewidth}
+                    \centering
+                    \includegraphics[width=1.0\linewidth]{src/images/maze512-1-4}
+                \end{minipage}\hfill%
+                \begin{minipage}{0.5\linewidth}
+                    \centering
+                    \includegraphics[width=1.0\linewidth]{src/images/hrt201n}
+                \end{minipage}
             }
-        
-        \column{0.7}
-            \block{Title block}{%
-                Body block
-            }    
+        }%
+        \column{0.36}{%
+            \block{Anytime scenario}{%
+                \includegraphics[width=1.0\linewidth]{src/images/anytime}
+                %add space to fill everything
+                \medskip
+                \phantom{x}
+            }
+        }
     \end{columns}
     
 \end{document}
