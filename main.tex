@@ -23,6 +23,7 @@
 \usepackage[thicklines]{cancel}
 \usepackage{tikz}
 \usetikzlibrary{positioning}
+\usepackage[absolute, overlay]{textpos}
 
 \input{src/cmds/commons}
 \input{src/cmds/commands}
@@ -31,7 +32,9 @@
 % TITLE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Path Planning with CPD Heuristics}
+\title{%
+    Path Planning with CPD Heuristics%
+}
 \author{Massimo Bono$^1$, Alfonso E. Gerevini$^1$, Daniel D. Harabor$^2$, Peter J. Stuckey$^2$}
 \date{\today}
 \institute{%
@@ -44,8 +47,13 @@
 % STYLE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\definecolorpalette{customColorPalette}{%
+    \definecolor{colorOne}{rgb}{0.2, 0.2, 0.6}%
+    \definecolor{colorTwo}{rgb}{0.36, 0.54, 0.66}%
+    \definecolor{colorThree}{rgb}{0.2, 0.2, 0.6}
+}
 \usetheme{Autumn}
-\usecolorstyle[colorPalette=BrownBlueOrange]{Germany}
+\usecolorstyle[colorPalette=customColorPalette]{Germany}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % configuration of tikzposter
@@ -53,6 +61,15 @@
 
 %remove logo https://tex.stackexchange.com/a/263278/145331
 \tikzposterlatexaffectionproofoff
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TEXPOS CONFIGURATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+\dimendef\prevdepth=0
+%\textblockorigin{0mm}{0mm} % start everything near the top-left corner
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TIKZ CONFIGURATION
@@ -88,12 +105,27 @@
     inner sep=3pt,%
     node distance=3.5cm,%
 }}
+\tikzset{SearchNode/.style={%
+    shape=circle,%
+    draw=yellow!80,%
+    fill=yellow!50,%
+    minimum size=10pt,%
+    line width=7pt,%
+    radius=1cm,%
+    inner sep=3pt,%
+    node distance=3.5cm,%
+}}
 \tikzset{NormalEdge/.style={%
     -.,
     line width=2pt,%
 }}
 \tikzset{EdgePath/.style={%
     ->,%
+    line width=5pt,%
+}}
+\tikzset{HPath/.style={%
+    ->,%
+    dashed,%
     line width=5pt,%
 }}
 \NewDocumentCommand{\edgeLabel}{s m}{%
@@ -111,7 +143,15 @@
 \begin{document}
 
     \maketitle
-    
+
+    \begin{textblock}{45}[0.5, 0.5](55,30)
+        \includegraphics[width=45mm]{src/images/unibs-onlylogo3}
+    \end{textblock}
+
+    \begin{textblock}{45}[0.5, 0.5](539,30)
+        \includegraphics[width=45mm]{src/images/monash-onlylogo2}
+    \end{textblock}
+
     \block{Abstract}{%
         Compressed Path Databases (CPDs) are a leading technique for optimal pathfinding in graphs with static edge costs. In this work we investigate CPDs as admissible heuristic functions and we apply them in two distinct settings: problems where the graph is subject to dynamically changing costs, and anytime settings where deliberation time is limited. Conventional heuristics derive cost-to- go estimates by reasoning about a tentative and usually infeasible path, from the current node to the target. CPD-based heuristics derive cost-to-go estimates by computing a concrete and usually feasible path. We exploit such paths to bound the optimal solution, not just from below but also from above. We demonstrate the benefit of this approach in a range of experiments on standard gridmaps and in comparison to Landmarks, a popular alternative also developed for searching in explicit state-spaces.
     }
@@ -133,40 +173,53 @@
         \end{minipage}%
         \begin{minipage}{0.31\textwidth}
             \centering
-            \textbf{Problem: compute soltuion of $\mathbf{q}$ over map with \textit{perturbations}?}
+            \textbf{Problem: compute solution of $\mathbf{q}$ over map with \textit{perturbations}?}
             \medskip\medskip\medskip
             
             \input{src/tikzs/perturbatedgraphquery.tikz}
         \end{minipage}%
     }
 
-    \block{\CPDSearch{} $\Rightarrow$ Exploit \CPD{} in \A{} variant}{%
-        \begin{minipage}{0.31\textwidth}
+    \block{\CPDSearch{} $\Rightarrow$ Exploit \CPDPathsName{} in an \A{} variant}{%
+        \begin{minipage}{0.26\textwidth}
+                \begin{tabular}{c|cccccccc}
+                st          & $s_{0,0}$ & $s_{0,1}$ & $s_{0,2}$ &$s_{1,0}$ &$s_{1,1}$ &$s_{1,2}$ &$s_{2,0}$ &$s_{2,2}$ \\ \hline
+                $s_{0,0}$   & * & a & a & e & a & a & e & a \\
+                $s_{0,1}$   & a & * & b & a & g & g & a & g \\
+                $s_{0,2}$   & b & b & * & b & b & h & b & h \\
+                $s_{1,0}$   & e & e & e & * & c & c & f & c \\
+                $s_{1,1}$   & g & g & g & c & * & d & c & d \\
+                $s_{1,2}$   & d & d & h & d & d & * & d & i \\
+                $s_{2,0}$   & f & f & f & f & f & f & * & f \\
+                $s_{2,2}$   & i & i & i & i & i & i & i & * \\
+                \end{tabular}
+        \end{minipage}\quad%
+        \begin{minipage}{0.23\textwidth}
             \centering
             \textbf{Admissible heuristic}
             \medskip\medskip\medskip
 
             \input{src/tikzs/admissibleheuristic.tikz}            
         \end{minipage}%
-        \begin{minipage}{0.31\textwidth}
+        \begin{minipage}{0.23\textwidth}
             \centering
             \textbf{Early Termination}
             \medskip\medskip\medskip
 
-            \input{src/tikzs/admissibleheuristic.tikz}            
+            \input{src/tikzs/earlytermination.tikz}            
         \end{minipage}%
-        \begin{minipage}{0.31\textwidth}
+        \begin{minipage}{0.23\textwidth}
             \centering
             \textbf{Obtain solution bounds}
             \medskip\medskip\medskip
 
-            \input{src/tikzs/admissibleheuristic.tikz}            
+            \input{src/tikzs/solutionbounds.tikz}            
         \end{minipage}
 
     }
 
     \begin{columns}
-        \column{0.64}{%
+        \column{0.630}{%
             \block{Optimal scenario}{%
                 \begin{minipage}{0.5\linewidth}
                     \centering
@@ -182,7 +235,6 @@
             \block{Anytime scenario}{%
                 \includegraphics[width=1.0\linewidth]{src/images/anytime}
                 %add space to fill everything
-                \medskip
                 \phantom{x}
             }
         }
