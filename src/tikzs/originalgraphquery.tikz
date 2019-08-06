@@ -1,10 +1,10 @@
 \begin{tikzpicture}
     \node[StartVertex] (v00) at (0,0) {$s_{0,0}$};
-    \node[Vertex, right=4.0cm of v00] (v01) {$s_{0,1}$};
-    \node[Vertex, right=4.0cm of v01] (v02) {$s_{0,2}$};
+    \node[Vertex, right=2.1cm of v00] (v01) {$s_{0,1}$};
+    \node[Vertex, right=2.1cm of v01] (v02) {$s_{0,2}$};
     \node[Vertex, below=2.0cm of v00] (v10) {$s_{1,0}$};
-    \node[Vertex, right=4.0cm of v10] (v11) {$s_{1,1}$};
-    \node[Vertex, right=4.0cm of v11] (v12) {$s_{1,2}$};
+    \node[Vertex, right=2.1cm of v10] (v11) {$s_{1,1}$};
+    \node[Vertex, right=2.1cm of v11] (v12) {$s_{1,2}$};
     \node[Vertex, below=2.0cm of v10] (v20) {$s_{2,0}$};
     \node[TargetVertex, below=2.0cm of v12] (v22) {$s_{2,2}$};
 

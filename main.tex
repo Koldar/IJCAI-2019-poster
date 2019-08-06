@@ -47,10 +47,14 @@
 % STYLE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\definecolor{theColorOne}{rgb}{0.2, 0.2, 0.6}%
+\definecolor{theColorTwo}{rgb}{0.36, 0.54, 0.66}%
+\definecolor{theColorThree}{rgb}{0.2, 0.2, 0.6}
+
 \definecolorpalette{customColorPalette}{%
-    \definecolor{colorOne}{rgb}{0.2, 0.2, 0.6}%
-    \definecolor{colorTwo}{rgb}{0.36, 0.54, 0.66}%
-    \definecolor{colorThree}{rgb}{0.2, 0.2, 0.6}
+    \definecolor{colorOne}{named}{theColorOne}%
+    \definecolor{colorTwo}{named}{theColorTwo}%
+    \definecolor{colorThree}{named}{theColorThree}
 }
 \usetheme{Autumn}
 \usecolorstyle[colorPalette=customColorPalette]{Germany}
@@ -152,33 +156,51 @@
         \includegraphics[width=45mm]{src/images/monash-onlylogo2}
     \end{textblock}
 
-    \block{Abstract}{%
+    \block{Abstract}{\normalsize{%
         Compressed Path Databases (CPDs) are a leading technique for optimal pathfinding in graphs with static edge costs. In this work we investigate CPDs as admissible heuristic functions and we apply them in two distinct settings: problems where the graph is subject to dynamically changing costs, and anytime settings where deliberation time is limited. Conventional heuristics derive cost-to- go estimates by reasoning about a tentative and usually infeasible path, from the current node to the target. CPD-based heuristics derive cost-to-go estimates by computing a concrete and usually feasible path. We exploit such paths to bound the optimal solution, not just from below but also from above. We demonstrate the benefit of this approach in a range of experiments on standard gridmaps and in comparison to Landmarks, a popular alternative also developed for searching in explicit state-spaces.
-    }
+    }}
 
-    \block{Problem}{%
-        \begin{minipage}{0.31\textwidth}%
-            \centering%
-            \textbf{Original map}%
-            \medskip\medskip\medskip
+    \begin{columns}
+        \column{0.37}{%
+            \block{Context}{%
+                \begin{itemize}
+                    \item[\color{theColorOne}\Large{$\diamond$}] Path planning episodes are independent from each others;
+                    \item[\color{theColorOne}\Large{$\diamond$}] fixed start and target locations;
+                    \item[\color{theColorOne}\Large{$\diamond$}] original graph map known a priori;
+                    \item[\color{theColorOne}\Large{$\diamond$}] distribution of edge costs changes (\textit{perturbations}) over map unkown a priori;
+                    \item[\color{theColorOne}\Large{$\diamond$}] perturbations can \textbf{only increase} original edge cost;
+                    \item[\color{theColorOne}\Large{$\diamond$}] perturbations detected at the beginning of each path planning episodes and then assumed fixed.
+                \end{itemize}
+            }
+        }
 
-            \input{src/tikzs/originalgraph.tikz}
-        \end{minipage}%
-        \begin{minipage}{0.31\textwidth}
-            \centering
-            \textbf{Solution of query $\mathbf{q = (s_{0,0}, s_{2,2})}$}
-            \medskip\medskip\medskip
-            
-            \input{src/tikzs/originalgraphquery.tikz}
-        \end{minipage}%
-        \begin{minipage}{0.31\textwidth}
-            \centering
-            \textbf{Problem: compute solution of $\mathbf{q}$ over map with \textit{perturbations}?}
-            \medskip\medskip\medskip
-            
-            \input{src/tikzs/perturbatedgraphquery.tikz}
-        \end{minipage}%
-    }
+        \column{0.63}{%
+            \block{Problem}{%
+                \begin{minipage}[b]{0.31\linewidth}%
+                    \centering%
+                    \textbf{Original map}%
+                    \medskip\medskip\medskip
+
+                    \input{src/tikzs/originalgraph.tikz}
+                \end{minipage}\hfill%
+                \begin{minipage}[b]{0.31\linewidth}
+                    \centering
+                    \textbf{Solution of query\\ $\mathbf{q = (s_{0,0}, s_{2,2})}$}
+                    \medskip\medskip\medskip
+                    
+                    \input{src/tikzs/originalgraphquery.tikz}
+                \end{minipage}\hfill%
+                \begin{minipage}[b]{0.31\linewidth}
+                    \centering
+                    \textbf{Problem: solution of $\mathbf{q}$ over map with \textit{perturbations}?}
+                    \medskip\medskip\medskip
+                    
+                    \input{src/tikzs/perturbatedgraphquery.tikz}
+                \end{minipage}%
+            }
+        }
+
+    \end{columns}
 
     \block{\CPDSearch{} $\Rightarrow$ Exploit \CPDPathsName{} in an \A{} variant}{%
         \begin{minipage}{0.26\textwidth}
@@ -219,8 +241,8 @@
     }
 
     \begin{columns}
-        \column{0.630}{%
-            \block{Optimal scenario}{%
+        \column{0.63}{%
+            \block[bodyinnersep=5pt]{Optimal scenario}{%
                 \begin{minipage}{0.5\linewidth}
                     \centering
                     \includegraphics[width=1.0\linewidth]{src/images/maze512-1-4}
@@ -229,13 +251,16 @@
                     \centering
                     \includegraphics[width=1.0\linewidth]{src/images/hrt201n}
                 \end{minipage}
+
+                \medskip\medskip\medskip\medskip
+                \phantom{x}
             }
         }%
-        \column{0.36}{%
-            \block{Anytime scenario}{%
+        \column{0.37}{%
+            \block[bodyinnersep=5pt]{Anytime scenario}{%
+                \normalsize{In $100\mu$s: \anytimeCPDSearch{} has solutions for $>75\%$ of instances while (\AWA{}) has them for $<25\%$.}
+                
                 \includegraphics[width=1.0\linewidth]{src/images/anytime}
-                %add space to fill everything
-                \phantom{x}
             }
         }
     \end{columns}
