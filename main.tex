@@ -21,6 +21,7 @@
 \usepackage{geometry}
 \usepackage{calculator}
 \usepackage[thicklines]{cancel}
+\usepackage{diagbox}
 \usepackage{tikz}
 \usetikzlibrary{positioning}
 \usepackage[absolute, overlay]{textpos}
@@ -205,7 +206,7 @@
     \block{\CPDSearch{} $\Rightarrow$ Exploit \CPDPathsName{} in an \A{} variant}{%
         \begin{minipage}{0.26\textwidth}
                 \begin{tabular}{c|cccccccc}
-                st          & $s_{0,0}$ & $s_{0,1}$ & $s_{0,2}$ &$s_{1,0}$ &$s_{1,1}$ &$s_{1,2}$ &$s_{2,0}$ &$s_{2,2}$ \\ \hline
+                \diagbox[height=15mm]{s}{t}          & $s_{0,0}$ & $s_{0,1}$ & $s_{0,2}$ &$s_{1,0}$ &$s_{1,1}$ &$s_{1,2}$ &$s_{2,0}$ &$s_{2,2}$ \\ \hline
                 $s_{0,0}$   & * & a & a & e & a & a & e & a \\
                 $s_{0,1}$   & a & * & b & a & g & g & a & g \\
                 $s_{0,2}$   & b & b & * & b & b & h & b & h \\
